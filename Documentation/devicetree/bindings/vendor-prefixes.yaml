@@ -553,6 +553,8 @@ patternProperties:
     description: Kionix, Inc.
   "^kobo,.*":
     description: Rakuten Kobo Inc.
+  "^kobol,.*":
+    description: Kobol Innovations Pte. Ltd.
   "^koe,.*":
     description: Kaohsiung Opto-Electronics Inc.
   "^kontron,.*":
@@ -1053,6 +1055,8 @@ patternProperties:
     description: Trusted Computing Group
   "^tcl,.*":
     description: Toby Churchill Ltd.
+  "^tcs,.*":
+    description: Shenzhen City Tang Cheng Technology Co., Ltd.
   "^technexion,.*":
     description: TechNexion
   "^technologic,.*":

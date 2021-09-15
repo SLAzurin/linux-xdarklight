@@ -1398,14 +1398,17 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
 
 	/*
 	 * Some H5 devices do not have signal traces precise enough to
-	 * use HS DDR mode for their eMMC chips.
+	 * use HS DDR mode for their eMMC chips. Other H6 devices operate
+	 * unreliably on HS DDR mode, too.
 	 *
 	 * We still enable HS DDR modes for all the other controller
-	 * variants that support them.
+	 * variants that support them properly.
 	 */
 	if ((host->cfg->clk_delays || host->use_new_timings) &&
 	    !of_device_is_compatible(pdev->dev.of_node,
-				     "allwinner,sun50i-h5-emmc"))
+				     "allwinner,sun50i-h5-emmc") &&
+	    !of_device_is_compatible(pdev->dev.of_node,
+				     "allwinner,sun50i-h6-emmc"))
 		mmc->caps      |= MMC_CAP_1_8V_DDR | MMC_CAP_3_3V_DDR;
 
 	ret = mmc_of_parse(mmc);
@@ -1506,6 +1509,8 @@ static int sunxi_mmc_runtime_suspend(struct device *dev)
 #endif
 
 static const struct dev_pm_ops sunxi_mmc_pm_ops = {
+	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+				pm_runtime_force_resume)
 	SET_RUNTIME_PM_OPS(sunxi_mmc_runtime_suspend,
 			   sunxi_mmc_runtime_resume,
 			   NULL)
